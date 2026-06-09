@@ -1,0 +1,69 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Global safety net catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Common Helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // User Profile Validation Schema
+    function isValidUser(data) {
+      return data.id is string && data.id.size() <= 128
+        && data.name is string && data.name.size() <= 150
+        && data.email is string && data.email.size() <= 150
+        && data.role is string && (data.role == 'student' || data.role == 'admin')
+        && data.streakCount is int
+        && data.totalScore is int;
+    }
+
+    // Score Record Validation Schema
+    function isValidScore(data) {
+      return data.id is string && data.id.size() <= 128
+        && data.testName is string && data.testName.size() <= 150
+        && data.date is string && data.date.size() <= 100
+        && data.score is int
+        && data.totalQuestions is int
+        && data.accuracy is int
+        && data.type is string && (data.type == 'quiz' || data.type == 'mock' || data.type == 'pyq');
+    }
+
+    // Rules for User Profile collection
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidUser(incoming());
+      allow update: if isOwner(userId) && isValidUser(incoming()) && (
+        incoming().email == existing().email // Check email immutability
+      );
+      allow delete: if false; // Profiles are permanent for historical progress tracking
+    }
+
+    // Rules for User's Score History sub-collection
+    match /users/{userId}/scores/{scoreId} {
+      allow list, get: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidId(scoreId) && isValidScore(incoming());
+      allow update, delete: if false; // Scores are read-only once written to prevent score tampering
+    }
+  }
+}

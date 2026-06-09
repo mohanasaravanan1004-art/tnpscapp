@@ -1,0 +1,51 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Represents a user's progress and stats in Vetri TNPSC.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["student", "admin"] },
+        "streakCount": { "type": "integer" },
+        "lastActive": { "type": "string", "format": "date-time" },
+        "completedTopicsCount": { "type": "integer" },
+        "bookmarkedChapterKeys": { "type": "array" },
+        "totalScore": { "type": "integer" },
+        "totalQuizzesTaken": { "type": "integer" },
+        "accuracyRate": { "type": "integer" },
+        "weeklyActivity": { "type": "array" },
+        "bookmarkedCurrentAffairs": { "type": "array" }
+      },
+      "required": ["id", "name", "email", "role", "streakCount", "totalScore"]
+    },
+    "ScoreHistory": {
+      "title": "ScoreHistory",
+      "description": "A student's score history for a taken test or quiz.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "testName": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "score": { "type": "integer" },
+        "totalQuestions": { "type": "integer" },
+        "timeTakenMinutes": { "type": "integer" },
+        "accuracy": { "type": "integer" },
+        "type": { "type": "string", "enum": ["quiz", "mock", "pyq"] }
+      },
+      "required": ["id", "testName", "date", "score", "totalQuestions", "accuracy", "type"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Information about registered users."
+    },
+    "/users/{userId}/scores/{scoreId}": {
+      "schema": "ScoreHistory",
+      "description": "Scores achieved by users on study quizzes."
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Vetri TNPSC",
+  "description": "Vetri TNPSC is a comprehensive exam preparation platform designed for Tamil Nadu civil service candidates studying for the TNPSC Group 4 Exams, featuring AI-enabled planners, mock tests, subject learning modules, and a doubt-solving center.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Outfit', 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Override default indigo with high-end Majestic Peacock Teal (மயில்நீலம்) */
+  --color-indigo-50: #f2fafb;
+  --color-indigo-100: #e3f5f6;
+  --color-indigo-200: #c4ebeb;
+  --color-indigo-300: #9ad7d9;
+  --color-indigo-400: #62bdc0;
+  --color-indigo-500: #42a1a4;
+  --color-indigo-600: #338184; /* Main Brand color - elegant teal */
+  --color-indigo-700: #2d6b6e;
+  --color-indigo-800: #295759;
+  --color-indigo-900: #26494a;
+  --color-indigo-950: #122829;
+
+  /* Override default amber with authentic Temple Saffron & Marigold bronze (குங்குமம் / சந்தனம்) */
+  --color-amber-50: #fffbf0;
+  --color-amber-100: #fef2d1;
+  --color-amber-200: #fce1a2;
+  --color-amber-300: #fac465;
+  --color-amber-400: #f5a32d;
+  --color-amber-500: #e68417; /* Bright warm saffron-gold */
+  --color-amber-600: #c7650f;
+  --color-amber-700: #a4480f;
+  --color-amber-800: #853710;
+  --color-amber-900: #6e2c10;
+  --color-amber-950: #3f1404;
+}
